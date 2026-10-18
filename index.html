@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NU Notice Alert & Academic AI Portal | National University Bangladesh</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Instant real-time notice alerts, exam routines, syllabus downloads, 2,279 official college directories, and open-source AI academic assistant for National University Bangladesh students.">
+  <meta name="keywords" content="National University Bangladesh, NU Notice Bot, NU Exam Routine, Honours Syllabus, NU Result Archive, Degree Pass, Masters, Professional">
+  <meta name="author" content="National University Notice Bot Team">
+
+  <!-- Open Graph / Telegram Card -->
+  <meta property="og:title" content="NU Notice & Academic AI Bot — Instant Official Alerts">
+  <meta property="og:description" content="Never miss an exam date, form fill-up, or syllabus update. Integrated with 2,279 colleges and 24/7 AI academic assistance.">
+  <meta property="og:image" content="bot_avatar.png">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #38bdf8;
+      --accent-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+      --telegram-blue: #229ED9;
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .btn-tg-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--telegram-blue);
+      color: #fff !important;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-tg-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(34, 158, 217, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 5rem 2rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      background: rgba(37, 99, 235, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      max-width: 750px;
+      margin: 0 auto 2.5rem;
+      color: var(--text-muted);
+      font-size: 1.15rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-main-telegram {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #0088cc 0%, #229ED9 100%);
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(34, 158, 217, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .btn-main-telegram:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(34, 158, 217, 0.6);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 16px 28px;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+    }
+
+    /* Stats Bar */
+    .stats-container {
+      max-width: 1100px;
+      margin: 3rem auto 5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      padding: 0 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Features Grid */
+    .section-title {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .features-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.2rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: rgba(37, 99, 235, 0.2);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Coming Soon / Roadmap */
+    .coming-soon-section {
+      max-width: 1200px;
+      margin: 6rem auto;
+      padding: 0 2rem;
+    }
+
+    .coming-soon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .roadmap-card {
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+      border: 1px dashed #475569;
+      border-radius: 18px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge-soon {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: #f59e0b;
+      color: #000;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 9999px;
+    }
+
+    .roadmap-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 1rem 0 0.5rem;
+    }
+
+    .roadmap-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Blog / Guides Section */
+    .blog-section {
+      max-width: 1200px;
+      margin: 6rem auto;
+      padding: 0 2rem;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .blog-body {
+      padding: 1.8rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .blog-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .blog-body h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
+    }
+
+    .blog-body p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .blog-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #64748b;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+
+    /* Floating Telegram CTA */
+    .floating-cta {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 999;
+      background: var(--telegram-blue);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 8px 30px rgba(34, 158, 217, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .floating-cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 35px rgba(34, 158, 217, 0.7);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#" class="brand">
+      <img src="bot_avatar.png" alt="NU Notice Bot">
+      <span>NU Notice Alert</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#roadmap">Coming Soon</a>
+      <a href="#blog">Student Guides</a>
+      <a href="https://t.me/Nu_notice_alart_bot" target="_blank" class="btn-tg-nav">
+        <i class="fa-brands fa-telegram"></i> Open in Telegram
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-badge">
+      <i class="fa-solid fa-bolt"></i> Real-time 24/7 National University Monitor
+    </div>
+    <h1>The Smart Notice & Academic<br><span>AI Bot for NU Students</span></h1>
+    <p>
+      Instant automated notifications for Exam Routines, Form Fill-ups, and Holidays.
+      Filtered by your Degree, Year, Session, and Subject, backed by an official directory of 2,279 affiliated colleges.
+    </p>
+    <div class="hero-cta">
+      <a href="https://t.me/Nu_notice_alart_bot" target="_blank" class="btn-main-telegram">
+        <i class="fa-brands fa-telegram fa-lg"></i> Launch Telegram Bot
+      </a>
+      <a href="#features" class="btn-secondary">
+        <i class="fa-solid fa-compass"></i> Explore Features
+      </a>
+    </div>
+  </header>
+
+  <!-- Stats Grid -->
+  <section class="stats-container">
+    <div class="stat-card">
+      <div class="stat-number">2,279</div>
+      <div class="stat-label">Official Affiliated Colleges</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">20 Min</div>
+      <div class="stat-label">Live Scrape Interval (24/7)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Free Open-Source Academic AI</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">8</div>
+      <div class="stat-label">Divisions & 64 Districts Mapped</div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="section-title">
+      <h2>Engineered for Academic Precision</h2>
+      <p>No fake demo data. Every notice links directly to official NU PDF circulars.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+        <h3>Targeted Smart Alerts</h3>
+        <p>Set your Degree (Honours, Degree, Masters, Professional), Year, Academic Session (2023-24, 2022-23), and Subject. You only receive circulars that actually affect your education.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-calendar-days"></i></div>
+        <h3>Live Exam Routine Scraper</h3>
+        <p>Direct integration with the Examination Controller Office. Access exam schedules, revisions, and seat plans the minute they are published.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+        <h3>Open-Source Academic AI</h3>
+        <p>Stuck with promotion rules, GPA calculations, or syllabus queries? Ask the built-in AI assistant in Bengali or English for immediate, helpful guidelines.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-school"></i></div>
+        <h3>2,279 College Directory</h3>
+        <p>Find official college codes, government vs non-govt status, authorized courses, and official contact numbers across all 64 districts in Bangladesh.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-file-pdf"></i></div>
+        <h3>Syllabus & Question Bank</h3>
+        <p>Instant direct downloads of official NU syllabus PDFs, compulsory English/ICT outlines, and sample question archives.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-chart-simple"></i></div>
+        <h3>Results & SMS Gateway</h3>
+        <p>Quick routing to official NU Result Archive servers, re-scrutiny links, and standard 16222 SMS syntax instructions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon / Roadmap -->
+  <section id="roadmap" class="coming-soon-section">
+    <div class="section-title">
+      <h2>🚀 Upcoming Features (Coming Soon)</h2>
+      <p>We are continuously expanding the bot into a complete nationwide student assistant platform.</p>
+    </div>
+    <div class="coming-soon-grid">
+      <div class="roadmap-card">
+        <span class="badge-soon">Coming Soon</span>
+        <div class="feature-icon"><i class="fa-solid fa-comment-sms"></i></div>
+        <h3>Instant SMS Alerts</h3>
+        <p>Optional emergency SMS delivery for exam routine postponements, flood alerts, and urgent university circulars directly to your mobile phone.</p>
+      </div>
+      <div class="roadmap-card">
+        <span class="badge-soon">Coming Soon</span>
+        <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+        <h3>Autonomous College Agents</h3>
+        <p>Dedicated autonomous web agents that crawl independent college portals (Dhaka College, Eden, Titumir, Chittagong College) to fetch department internal test dates.</p>
+      </div>
+      <div class="roadmap-card">
+        <span class="badge-soon">Coming Soon</span>
+        <div class="feature-icon"><i class="fa-solid fa-hand-holding-hand"></i></div>
+        <h3>Peer Study Helper & Notes</h3>
+        <p>Collaborative subject-wise study groups, chapter summaries, previous year solved questions, and student peer mentoring.</p>
+      </div>
+      <div class="roadmap-card">
+        <span class="badge-soon">Coming Soon</span>
+        <div class="feature-icon"><i class="fa-solid fa-calculator"></i></div>
+        <h3>CGPA & Credit Tracker</h3>
+        <p>Store your semester marks, calculate GPA accurately based on official NU grading criteria, and monitor your cumulative progress.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student Blog / Guidelines -->
+  <section id="blog" class="blog-section">
+    <div class="section-title">
+      <h2>📚 National University Student Guides</h2>
+      <p>Essential advice, regulations, and official university procedures simplified.</p>
+    </div>
+    <div class="blog-grid">
+      <div class="blog-card">
+        <div class="blog-body">
+          <div class="blog-tag">Regulations</div>
+          <h3>Honours Year Promotion Criteria Explained</h3>
+          <p>Learn the minimum passing grades (D Grade or above) and minimum GPA required to be promoted from 1st Year to 4th Year without probation.</p>
+          <div class="blog-footer">
+            <span>By Academic AI</span>
+            <span>4 min read</span>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-body">
+          <div class="blog-tag">Examination</div>
+          <h3>Online Form Fill-up & Fee Payment Process</h3>
+          <p>A step-by-step walkthrough on how to generate the Sonali Seba pay slip, submit online form fill-up, and avoid late penalty fees.</p>
+          <div class="blog-footer">
+            <span>By Academic AI</span>
+            <span>5 min read</span>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-body">
+          <div class="blog-tag">College Directory</div>
+          <h3>How to Check College Affiliation Status</h3>
+          <p>Ensure your college and degree course are approved by the National University inspection department using our built-in 2,279 college explorer.</p>
+          <div class="blog-footer">
+            <span>By Academic AI</span>
+            <span>3 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating Telegram Action Button -->
+  <a href="https://t.me/Nu_notice_alart_bot" target="_blank" class="floating-cta">
+    <i class="fa-brands fa-telegram fa-xl"></i>
+    <span>Connect Bot</span>
+  </a>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 National University Notice Bot Project. Open-Source Academic Tool.</p>
+    <p style="margin-top: 8px;">
+      Powered by Python, Beautiful Soup, APScheduler, and Open-Source AI.
+      <br>
+      <a href="https://github.com/rbhimel/nu_notice_bot" target="_blank">View GitHub Repository</a> | 
+      <a href="https://t.me/Nu_notice_alart_bot" target="_blank">Telegram Bot (@Nu_notice_alart_bot)</a>
+    </p>
+  </footer>
+
+</body>
+</html>
