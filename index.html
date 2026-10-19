@@ -3,642 +3,2277 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NU Notice Alert & Academic AI Portal | National University Bangladesh</title>
+  <title>National University Notice Alert & Academic Student Hub</title>
   
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Instant real-time notice alerts, exam routines, syllabus downloads, 2,279 official college directories, and open-source AI academic assistant for National University Bangladesh students.">
-  <meta name="keywords" content="National University Bangladesh, NU Notice Bot, NU Exam Routine, Honours Syllabus, NU Result Archive, Degree Pass, Masters, Professional">
-  <meta name="author" content="National University Notice Bot Team">
+  <!-- SEO & Social Graph Meta Tags -->
+  <meta name="description" content="Independent open-source notice alert, real-time exam routines, 2,279 affiliated college directory, and CGPA calculator for National University Bangladesh students.">
+  <meta name="keywords" content="National University Bangladesh, NU Notice Bot, Honours Exam Routine, Degree Pass, Masters, NU CGPA Calculator, 2279 College Directory">
+  <meta name="author" content="National University Student Community & Open-Source Contributors">
 
-  <!-- Open Graph / Telegram Card -->
-  <meta property="og:title" content="NU Notice & Academic AI Bot — Instant Official Alerts">
-  <meta property="og:description" content="Never miss an exam date, form fill-up, or syllabus update. Integrated with 2,279 colleges and 24/7 AI academic assistance.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="NU Notice Alert & Academic Student Hub">
+  <meta property="og:description" content="Never miss an exam date, form fill-up deadline, or circular. Real-time updates pushed directly to Telegram.">
   <meta property="og:image" content="bot_avatar.png">
   <meta property="og:type" content="website">
 
-  <!-- Google Fonts & Font Awesome Icons -->
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
+    /* -------------------------------------------------------------
+       CSS Design Tokens (Light & Dark Human-Crafted Themes)
+       ------------------------------------------------------------- */
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --accent: #38bdf8;
-      --accent-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
-      --telegram-blue: #229ED9;
-      --bg-dark: #0f172a;
-      --bg-card: #1e293b;
-      --text-main: #f8fafc;
+      --font-heading: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      --font-body: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Primary Theme Colors: Trustworthy Academic Navy & Emerald */
+      --primary: #1d4ed8;
+      --primary-hover: #1e40af;
+      --primary-light: #eff6ff;
+      --accent: #059669;
+      --accent-light: #ecfdf5;
+      --telegram: #0088cc;
+      --telegram-hover: #0077b5;
+
+      /* Default: Dark Theme */
+      --bg: #0b1120;
+      --bg-surface: #131d32;
+      --bg-surface-elevated: #1e293b;
+      --bg-surface-subtle: #0f172a;
+      --border: #24344d;
+      --border-subtle: #1e293b;
+      --text: #f1f5f9;
       --text-muted: #94a3b8;
-      --border: #334155;
+      --text-subtle: #64748b;
+      --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      --badge-bg: rgba(29, 78, 216, 0.15);
+      --badge-border: rgba(59, 130, 246, 0.3);
+      --badge-text: #60a5fa;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-elevated: #f1f5f9;
+      --bg-surface-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --border-subtle: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --text-subtle: #94a3b8;
+      --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+      --badge-bg: #eff6ff;
+      --badge-border: #bfdbfe;
+      --badge-text: #1d4ed8;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    html {
       scroll-behavior: smooth;
     }
 
     body {
-      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
+      font-family: var(--font-body);
+      background-color: var(--bg);
+      color: var(--text);
       line-height: 1.6;
+      transition: background-color 0.25s ease, color 0.25s ease;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Navbar */
-    nav {
+    /* Container Utility */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* -------------------------------------------------------------
+       Top Announcement Bar
+       ------------------------------------------------------------- */
+    .top-banner {
+      background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 100%);
+      color: #ffffff;
+      padding: 7px 16px;
+      font-size: 0.85rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .top-banner a {
+      color: #93c5fd;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .top-banner a:hover {
+      color: #ffffff;
+    }
+
+    /* -------------------------------------------------------------
+       Navbar
+       ------------------------------------------------------------- */
+    header.site-header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(16px);
+      background: rgba(11, 17, 32, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
+      transition: background 0.25s ease;
+    }
+
+    [data-theme="light"] header.site-header {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 1rem 0;
     }
 
-    .brand {
+    .brand-group {
       display: flex;
       align-items: center;
       gap: 12px;
       text-decoration: none;
-      color: #fff;
-      font-weight: 700;
-      font-size: 1.25rem;
+      color: var(--text);
     }
 
-    .brand img {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 2px solid var(--accent);
+    .brand-group img {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
-    .nav-links {
+    .brand-meta {
       display: flex;
-      gap: 1.5rem;
-      align-items: center;
+      flex-direction: column;
     }
 
-    .nav-links a {
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-link {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
+      font-size: 0.92rem;
+      font-weight: 600;
       transition: color 0.2s ease;
     }
 
-    .nav-links a:hover {
-      color: #fff;
+    .nav-link:hover {
+      color: var(--text);
     }
 
-    .btn-tg-nav {
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--text-muted);
+      transform: translateY(-1px);
+    }
+
+    .btn-tg-primary {
+      background: var(--telegram);
+      color: #ffffff !important;
+      padding: 9px 20px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--telegram-blue);
-      color: #fff !important;
-      padding: 8px 18px;
-      border-radius: 9999px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0, 136, 204, 0.3);
     }
 
-    .btn-tg-nav:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(34, 158, 217, 0.4);
+    .btn-tg-primary:hover {
+      background: var(--telegram-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 136, 204, 0.45);
     }
 
-    /* Hero Section */
-    .hero {
-      padding: 5rem 2rem 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
+    .mobile-menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* -------------------------------------------------------------
+       Hero Section
+       ------------------------------------------------------------- */
+    .hero-section {
+      padding: 4.5rem 0 3.5rem;
       text-align: center;
       position: relative;
     }
 
-    .hero-badge {
+    .status-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--badge-text);
       padding: 6px 16px;
       border-radius: 9999px;
-      background: rgba(37, 99, 235, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: var(--accent);
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.82rem;
+      font-weight: 700;
       margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
     }
 
-    .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.2); }
+    }
+
+    .hero-title {
+      font-size: clamp(2.3rem, 5vw, 3.8rem);
       font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
+      line-height: 1.18;
+      margin-bottom: 1rem;
+      color: var(--text);
     }
 
-    .hero h1 span {
-      background: var(--accent-gradient);
+    .hero-title span {
+      background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .hero p {
-      max-width: 750px;
-      margin: 0 auto 2.5rem;
-      color: var(--text-muted);
-      font-size: 1.15rem;
+    .hero-subtitle-bengali {
+      font-family: 'Hind Siliguri', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--badge-text);
+      margin-bottom: 1.25rem;
     }
 
-    .hero-cta {
+    .hero-description {
+      max-width: 740px;
+      margin: 0 auto 2.25rem;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.65;
+    }
+
+    .hero-cta-group {
       display: flex;
       justify-content: center;
       gap: 1rem;
       flex-wrap: wrap;
-    }
-
-    .btn-main-telegram {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: linear-gradient(135deg, #0088cc 0%, #229ED9 100%);
-      color: #fff;
-      padding: 16px 36px;
-      border-radius: 14px;
-      font-size: 1.15rem;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 10px 30px rgba(34, 158, 217, 0.4);
-      transition: all 0.25s ease;
-    }
-
-    .btn-main-telegram:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 15px 40px rgba(34, 158, 217, 0.6);
-    }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: #fff;
-      padding: 16px 28px;
-      border-radius: 14px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .btn-secondary:hover {
-      background: #334155;
-    }
-
-    /* Stats Bar */
-    .stats-container {
-      max-width: 1100px;
-      margin: 3rem auto 5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      padding: 0 1.5rem;
-    }
-
-    .stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      border-radius: 16px;
-      text-align: center;
-    }
-
-    .stat-number {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 0.25rem;
-    }
-
-    .stat-label {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    /* Features Grid */
-    .section-title {
-      text-align: center;
       margin-bottom: 3.5rem;
     }
 
-    .section-title h2 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-    }
-
-    .section-title p {
-      color: var(--text-muted);
+    .btn-hero-primary {
+      background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%);
+      color: #ffffff;
+      padding: 15px 32px;
+      border-radius: 12px;
       font-size: 1.05rem;
-    }
-
-    .features-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-    }
-
-    .feature-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2.2rem;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent);
-    }
-
-    .feature-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: rgba(37, 99, 235, 0.2);
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .feature-card h3 {
-      font-size: 1.3rem;
       font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 24px rgba(0, 136, 204, 0.35);
+    }
+
+    .btn-hero-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 136, 204, 0.5);
+    }
+
+    .btn-hero-secondary {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 15px 28px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-hero-secondary:hover {
+      background: var(--bg-surface-elevated);
+      border-color: var(--text-muted);
+      transform: translateY(-2px);
+    }
+
+    /* Stats Grid */
+    .stats-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .metric-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: 1.6rem 1.4rem;
+      border-radius: 16px;
+      text-align: left;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+    }
+
+    .metric-icon {
+      font-size: 1.4rem;
+      color: var(--badge-text);
       margin-bottom: 0.75rem;
     }
 
-    .feature-card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* Coming Soon / Roadmap */
-    .coming-soon-section {
-      max-width: 1200px;
-      margin: 6rem auto;
-      padding: 0 2rem;
-    }
-
-    .coming-soon-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .roadmap-card {
-      background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
-      border: 1px dashed #475569;
-      border-radius: 18px;
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .badge-soon {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      background: #f59e0b;
-      color: #000;
-      font-size: 0.75rem;
+    .metric-value {
+      font-size: 2rem;
       font-weight: 800;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 9999px;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+      font-feature-settings: "tnum";
     }
 
-    .roadmap-card h3 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin: 1rem 0 0.5rem;
-    }
-
-    .roadmap-card p {
+    .metric-label {
+      font-size: 0.88rem;
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-weight: 500;
     }
 
-    /* Blog / Guides Section */
-    .blog-section {
-      max-width: 1200px;
-      margin: 6rem auto;
-      padding: 0 2rem;
+    /* -------------------------------------------------------------
+       Section Header Component
+       ------------------------------------------------------------- */
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 3rem;
     }
 
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 2rem;
-    }
-
-    .blog-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .blog-body {
-      padding: 1.8rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .blog-tag {
-      font-size: 0.8rem;
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 0.82rem;
       font-weight: 700;
-      color: var(--accent);
       text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--badge-text);
       margin-bottom: 0.5rem;
     }
 
-    .blog-body h3 {
-      font-size: 1.25rem;
+    .section-heading {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    /* -------------------------------------------------------------
+       Interactive Bot Simulator Section
+       ------------------------------------------------------------- */
+    .simulator-section {
+      padding: 4.5rem 0;
+      background: var(--bg-surface-subtle);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .simulator-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .sim-controls-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .sim-title {
+      font-size: 1.35rem;
       font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .sim-subtitle {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .sim-field {
+      margin-bottom: 1.25rem;
+    }
+
+    .sim-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sim-select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .sim-select:focus {
+      border-color: var(--primary);
+    }
+
+    /* Telegram Chat Mockup */
+    .tg-mockup {
+      background: #0e1621;
+      border: 1px solid #242f3d;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .tg-header {
+      background: #17212b;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #242f3d;
+    }
+
+    .tg-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid #2b5278;
+    }
+
+    .tg-user-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+
+    .tg-user-status {
+      font-size: 0.75rem;
+      color: #4fa7f5;
+    }
+
+    .tg-body {
+      padding: 20px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: radial-gradient(circle at 50% 50%, #111a24 0%, #0e1621 100%);
+    }
+
+    .tg-bubble {
+      background: #182533;
+      border: 1px solid #242f3d;
+      border-radius: 14px 14px 14px 4px;
+      padding: 14px 16px;
+      max-width: 90%;
+      color: #e4ecf2;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .tg-bubble-header {
+      font-weight: 700;
+      color: #52a9ff;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tg-bubble-meta {
+      font-size: 0.8rem;
+      color: #798b9c;
+      margin: 8px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tg-buttons-mock {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tg-btn-link {
+      background: #242f3d;
+      color: #52a9ff;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .tg-btn-link:hover {
+      background: #2b3a4a;
+    }
+
+    /* -------------------------------------------------------------
+       College Directory Section (2,279 Colleges)
+       ------------------------------------------------------------- */
+    .directory-section {
+      padding: 5rem 0;
+    }
+
+    .directory-search-bar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--card-shadow);
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .input-icon-wrapper {
+      position: relative;
+    }
+
+    .input-icon-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-subtle);
+      font-size: 0.95rem;
+    }
+
+    .input-icon-wrapper input {
+      width: 100%;
+      padding: 12px 14px 12px 40px;
+      border-radius: 10px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .input-icon-wrapper input:focus {
+      border-color: var(--primary);
+    }
+
+    .dir-select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .directory-meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .college-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+      max-height: 520px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    /* Custom Scrollbar */
+    .college-cards-grid::-webkit-scrollbar {
+      width: 6px;
+    }
+    .college-cards-grid::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .college-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .college-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .college-name {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text);
       margin-bottom: 0.75rem;
       line-height: 1.35;
     }
 
-    .blog-body p {
-      color: var(--text-muted);
-      font-size: 0.92rem;
-      margin-bottom: 1.5rem;
+    .college-badge-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .blog-footer {
-      margin-top: auto;
+    .badge-subtle {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--bg-surface-elevated);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .badge-govt {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10b981;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    /* -------------------------------------------------------------
+       CGPA Calculator Section
+       ------------------------------------------------------------- */
+    .calculator-section {
+      padding: 5rem 0;
+      background: var(--bg-surface-subtle);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .calc-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.25rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .calc-table-responsive {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+
+    .calc-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .calc-table th {
+      padding: 10px 12px;
+      border-bottom: 2px solid var(--border);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .calc-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .calc-input, .calc-select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .btn-calc-action {
+      background: transparent;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-calc-action:hover {
+      opacity: 0.7;
+    }
+
+    .calc-toolbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.85rem;
-      color: #64748b;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-calc-add {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-calc-add:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .calc-result-box {
+      background: linear-gradient(135deg, rgba(29, 78, 216, 0.12) 0%, rgba(5, 150, 105, 0.12) 100%);
+      border: 1px solid var(--primary);
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .calc-gpa-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    [data-theme="dark"] .calc-gpa-number {
+      color: #60a5fa;
+    }
+
+    .calc-class-badge {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* -------------------------------------------------------------
+       Official Portals Vault
+       ------------------------------------------------------------- */
+    .portals-section {
+      padding: 5rem 0;
+    }
+
+    .portal-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .portal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: var(--card-shadow);
+    }
+
+    .portal-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .portal-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .portal-url {
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: var(--text-subtle);
+      margin-bottom: 0.75rem;
+    }
+
+    .portal-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* -------------------------------------------------------------
+       Student Guides (Written by NU Community / Seniors)
+       ------------------------------------------------------------- */
+    .guides-section {
+      padding: 5rem 0;
+      background: var(--bg-surface-subtle);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .guide-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .guide-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+    }
+
+    .guide-pill {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--badge-text);
+      margin-bottom: 0.75rem;
+    }
+
+    .guide-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .guide-excerpt {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .guide-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-subtle);
       border-top: 1px solid var(--border);
       padding-top: 1rem;
     }
 
-    /* Floating Telegram CTA */
-    .floating-cta {
+    /* -------------------------------------------------------------
+       FAQ Accordion Section
+       ------------------------------------------------------------- */
+    .faq-section {
+      padding: 5rem 0;
+    }
+
+    .faq-container {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .faq-item.active {
+      border-color: var(--primary);
+    }
+
+    .faq-question {
+      padding: 1.25rem 1.5rem;
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1.02rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .faq-icon {
+      font-size: 0.9rem;
+      color: var(--text-subtle);
+      transition: transform 0.25s ease;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      padding: 0 1.5rem;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 250px;
+      padding-bottom: 1.25rem;
+    }
+
+    /* -------------------------------------------------------------
+       Call to Action Banner
+       ------------------------------------------------------------- */
+    .cta-banner {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      border: 1px solid #3b82f6;
+      border-radius: 24px;
+      padding: 3.5rem 2rem;
+      text-align: center;
+      margin: 3rem auto 5rem;
+      color: #ffffff;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .cta-banner h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+
+    .cta-banner p {
+      max-width: 620px;
+      margin: 0 auto 2rem;
+      color: #cbd5e1;
+      font-size: 1.1rem;
+    }
+
+    /* -------------------------------------------------------------
+       Site Footer
+       ------------------------------------------------------------- */
+    footer.site-footer {
+      border-top: 1px solid var(--border);
+      padding: 3.5rem 0 2.5rem;
+      background: var(--bg-surface-subtle);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .footer-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-brand-desc {
+      margin-top: 0.75rem;
+      line-height: 1.6;
+      max-width: 380px;
+    }
+
+    .footer-heading {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .disclaimer-box {
+      font-size: 0.8rem;
+      color: var(--text-subtle);
+      max-width: 700px;
+      line-height: 1.5;
+    }
+
+    /* Floating Telegram CTA Button */
+    .floating-tg-button {
       position: fixed;
-      bottom: 25px;
-      right: 25px;
-      z-index: 999;
-      background: var(--telegram-blue);
-      color: #fff;
-      padding: 14px 24px;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99;
+      background: var(--telegram);
+      color: #ffffff;
+      padding: 13px 22px;
       border-radius: 9999px;
       display: flex;
       align-items: center;
       gap: 10px;
-      text-decoration: none;
       font-weight: 700;
-      box-shadow: 0 8px 30px rgba(34, 158, 217, 0.5);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .floating-cta:hover {
-      transform: scale(1.05);
-      box-shadow: 0 12px 35px rgba(34, 158, 217, 0.7);
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 3rem 2rem;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    footer a {
-      color: var(--accent);
+      font-size: 0.95rem;
       text-decoration: none;
+      box-shadow: 0 8px 25px rgba(0, 136, 204, 0.45);
+      transition: all 0.2s ease;
+    }
+
+    .floating-tg-button:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(0, 136, 204, 0.6);
+    }
+
+    /* Responsive Mobile & Tablet Optimizations */
+    @media (max-width: 868px) {
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-surface);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.2rem;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      }
+      .nav-menu.open {
+        display: flex;
+      }
+      .mobile-menu-toggle {
+        display: block;
+      }
+      .simulator-layout {
+        grid-template-columns: 1fr;
+      }
+      .directory-search-bar {
+        grid-template-columns: 1fr;
+      }
+      .footer-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 1rem;
+      }
+      .top-banner {
+        font-size: 0.76rem;
+        padding: 6px 8px;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .brand-sub {
+        display: none;
+      }
+      .brand-group img {
+        width: 36px;
+        height: 36px;
+      }
+      .brand-name {
+        font-size: 1.05rem;
+      }
+      .btn-tg-primary span {
+        display: none;
+      }
+      .btn-tg-primary {
+        padding: 8px 12px;
+      }
+      .hero-section {
+        padding: 2.5rem 0 1.75rem;
+      }
+      .hero-title {
+        font-size: 1.85rem;
+      }
+      .hero-subtitle-bengali {
+        font-size: 1.15rem;
+      }
+      .hero-description {
+        font-size: 0.95rem;
+      }
+      .hero-cta-group {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .btn-hero-primary, .btn-hero-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 13px 20px;
+        font-size: 0.95rem;
+      }
+      .sim-controls-card {
+        padding: 1.25rem 1rem;
+      }
+      .tg-body {
+        padding: 12px;
+      }
+      .tg-bubble {
+        max-width: 100%;
+      }
+      .calc-wrapper {
+        padding: 1.25rem 0.85rem;
+      }
+      .calc-gpa-number {
+        font-size: 2.5rem;
+      }
+      .calc-class-badge {
+        font-size: 0.95rem;
+      }
+      .calc-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-calc-add {
+        width: 100%;
+        justify-content: center;
+      }
+      .floating-tg-button {
+        bottom: 16px;
+        right: 16px;
+        padding: 10px 16px;
+        font-size: 0.88rem;
+      }
+      .cta-banner {
+        padding: 2.25rem 1.25rem;
+      }
+      .cta-banner h2 {
+        font-size: 1.6rem;
+      }
+      .cta-banner p {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
-  <nav>
-    <a href="#" class="brand">
-      <img src="bot_avatar.png" alt="NU Notice Bot">
-      <span>NU Notice Alert</span>
-    </a>
-    <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#roadmap">Coming Soon</a>
-      <a href="#blog">Student Guides</a>
-      <a href="https://t.me/Nu_notice_alart_bot" target="_blank" class="btn-tg-nav">
-        <i class="fa-brands fa-telegram"></i> Open in Telegram
-      </a>
-    </div>
-  </nav>
+  <!-- Top Announcement Notification -->
+  <div class="top-banner">
+    <span>🎓 <strong>2026 Academic Season:</strong> Honours 1st & 3rd Year Exam Routines and Form Fill-up notices are actively monitored.</span>
+    <a href="#simulator">Preview Alerts &rarr;</a>
+  </div>
 
-  <!-- Hero -->
-  <header class="hero">
-    <div class="hero-badge">
-      <i class="fa-solid fa-bolt"></i> Real-time 24/7 National University Monitor
-    </div>
-    <h1>The Smart Notice & Academic<br><span>AI Bot for NU Students</span></h1>
-    <p>
-      Instant automated notifications for Exam Routines, Form Fill-ups, and Holidays.
-      Filtered by your Degree, Year, Session, and Subject, backed by an official directory of 2,279 affiliated colleges.
-    </p>
-    <div class="hero-cta">
-      <a href="https://t.me/Nu_notice_alart_bot" target="_blank" class="btn-main-telegram">
-        <i class="fa-brands fa-telegram fa-lg"></i> Launch Telegram Bot
+  <!-- Main Sticky Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="#" class="brand-group">
+        <img src="bot_avatar.png" alt="NU Notice Alert Logo">
+        <div class="brand-meta">
+          <span class="brand-name">NU Notice Alert</span>
+          <span class="brand-sub">Independent Student Academic Hub</span>
+        </div>
       </a>
-      <a href="#features" class="btn-secondary">
-        <i class="fa-solid fa-compass"></i> Explore Features
-      </a>
+
+      <!-- Navigation Links -->
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#simulator" class="nav-link">Notice Simulator</a></li>
+        <li><a href="#directory" class="nav-link">College Directory (2,279)</a></li>
+        <li><a href="#calculator" class="nav-link">CGPA Calculator</a></li>
+        <li><a href="#portals" class="nav-link">Official Portals</a></li>
+        <li><a href="#guides" class="nav-link">Student Guides</a></li>
+        <li><a href="#faq" class="nav-link">FAQs</a></li>
+      </ul>
+
+      <!-- Action Buttons -->
+      <div class="nav-actions">
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+        <a href="https://t.me/Nu_notice_alart_bot" target="_blank" rel="noopener noreferrer" class="btn-tg-primary">
+          <i class="fa-brands fa-telegram"></i>
+          <span>Open Bot</span>
+        </a>
+        <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Open Navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Stats Grid -->
-  <section class="stats-container">
-    <div class="stat-card">
-      <div class="stat-number">2,279</div>
-      <div class="stat-label">Official Affiliated Colleges</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-number">20 Min</div>
-      <div class="stat-label">Live Scrape Interval (24/7)</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-number">100%</div>
-      <div class="stat-label">Free Open-Source Academic AI</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-number">8</div>
-      <div class="stat-label">Divisions & 64 Districts Mapped</div>
-    </div>
-  </section>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span>24/7 Automated Gazette Scraper Active · Synced with nu.ac.bd</span>
+      </div>
 
-  <!-- Features -->
-  <section id="features">
-    <div class="section-title">
-      <h2>Engineered for Academic Precision</h2>
-      <p>No fake demo data. Every notice links directly to official NU PDF circulars.</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
-        <h3>Targeted Smart Alerts</h3>
-        <p>Set your Degree (Honours, Degree, Masters, Professional), Year, Academic Session (2023-24, 2022-23), and Subject. You only receive circulars that actually affect your education.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-calendar-days"></i></div>
-        <h3>Live Exam Routine Scraper</h3>
-        <p>Direct integration with the Examination Controller Office. Access exam schedules, revisions, and seat plans the minute they are published.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
-        <h3>Open-Source Academic AI</h3>
-        <p>Stuck with promotion rules, GPA calculations, or syllabus queries? Ask the built-in AI assistant in Bengali or English for immediate, helpful guidelines.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-school"></i></div>
-        <h3>2,279 College Directory</h3>
-        <p>Find official college codes, government vs non-govt status, authorized courses, and official contact numbers across all 64 districts in Bangladesh.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-file-pdf"></i></div>
-        <h3>Syllabus & Question Bank</h3>
-        <p>Instant direct downloads of official NU syllabus PDFs, compulsory English/ICT outlines, and sample question archives.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-chart-simple"></i></div>
-        <h3>Results & SMS Gateway</h3>
-        <p>Quick routing to official NU Result Archive servers, re-scrutiny links, and standard 16222 SMS syntax instructions.</p>
-      </div>
-    </div>
-  </section>
+      <h1 class="hero-title">
+        Instant Notice Alerts & Academic Hub<br>
+        <span>for National University Students</span>
+      </h1>
 
-  <!-- Coming Soon / Roadmap -->
-  <section id="roadmap" class="coming-soon-section">
-    <div class="section-title">
-      <h2>🚀 Upcoming Features (Coming Soon)</h2>
-      <p>We are continuously expanding the bot into a complete nationwide student assistant platform.</p>
-    </div>
-    <div class="coming-soon-grid">
-      <div class="roadmap-card">
-        <span class="badge-soon">Coming Soon</span>
-        <div class="feature-icon"><i class="fa-solid fa-comment-sms"></i></div>
-        <h3>Instant SMS Alerts</h3>
-        <p>Optional emergency SMS delivery for exam routine postponements, flood alerts, and urgent university circulars directly to your mobile phone.</p>
-      </div>
-      <div class="roadmap-card">
-        <span class="badge-soon">Coming Soon</span>
-        <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
-        <h3>Autonomous College Agents</h3>
-        <p>Dedicated autonomous web agents that crawl independent college portals (Dhaka College, Eden, Titumir, Chittagong College) to fetch department internal test dates.</p>
-      </div>
-      <div class="roadmap-card">
-        <span class="badge-soon">Coming Soon</span>
-        <div class="feature-icon"><i class="fa-solid fa-hand-holding-hand"></i></div>
-        <h3>Peer Study Helper & Notes</h3>
-        <p>Collaborative subject-wise study groups, chapter summaries, previous year solved questions, and student peer mentoring.</p>
-      </div>
-      <div class="roadmap-card">
-        <span class="badge-soon">Coming Soon</span>
-        <div class="feature-icon"><i class="fa-solid fa-calculator"></i></div>
-        <h3>CGPA & Credit Tracker</h3>
-        <p>Store your semester marks, calculate GPA accurately based on official NU grading criteria, and monitor your cumulative progress.</p>
-      </div>
-    </div>
-  </section>
+      <p class="hero-subtitle-bengali">
+        জাতীয় বিশ্ববিদ্যালয়ের নোটিশ, পরীক্ষার রুটিন, ফরম ফিলাপ ও ফলাফল — সরাসরি আপনার টেলিগ্রামে।
+      </p>
 
-  <!-- Student Blog / Guidelines -->
-  <section id="blog" class="blog-section">
-    <div class="section-title">
-      <h2>📚 National University Student Guides</h2>
-      <p>Essential advice, regulations, and official university procedures simplified.</p>
-    </div>
-    <div class="blog-grid">
-      <div class="blog-card">
-        <div class="blog-body">
-          <div class="blog-tag">Regulations</div>
-          <h3>Honours Year Promotion Criteria Explained</h3>
-          <p>Learn the minimum passing grades (D Grade or above) and minimum GPA required to be promoted from 1st Year to 4th Year without probation.</p>
-          <div class="blog-footer">
-            <span>By Academic AI</span>
-            <span>4 min read</span>
-          </div>
+      <p class="hero-description">
+        Tired of slow, crashing university servers during exam and result days? 
+        Get real-time push alerts on Telegram filtered specifically for your <strong>Degree, Year, Session, and Subject</strong>, with direct links to official PDF circulars.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="https://t.me/Nu_notice_alart_bot" target="_blank" rel="noopener noreferrer" class="btn-hero-primary">
+          <i class="fa-brands fa-telegram fa-lg"></i>
+          <span>Launch Telegram Bot (@Nu_notice_alart_bot)</span>
+        </a>
+        <a href="#directory" class="btn-hero-secondary">
+          <i class="fa-solid fa-school"></i>
+          <span>Search 2,279 Colleges</span>
+        </a>
+        <a href="#calculator" class="btn-hero-secondary">
+          <i class="fa-solid fa-calculator"></i>
+          <span>CGPA Calculator</span>
+        </a>
+      </div>
+
+      <!-- Real Metrics -->
+      <div class="stats-card-grid">
+        <div class="metric-card">
+          <div class="metric-icon"><i class="fa-solid fa-building-columns"></i></div>
+          <div class="metric-value">2,279</div>
+          <div class="metric-label">Official Affiliated Colleges Mapped</div>
         </div>
-      </div>
-      <div class="blog-card">
-        <div class="blog-body">
-          <div class="blog-tag">Examination</div>
-          <h3>Online Form Fill-up & Fee Payment Process</h3>
-          <p>A step-by-step walkthrough on how to generate the Sonali Seba pay slip, submit online form fill-up, and avoid late penalty fees.</p>
-          <div class="blog-footer">
-            <span>By Academic AI</span>
-            <span>5 min read</span>
-          </div>
+        <div class="metric-card">
+          <div class="metric-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <div class="metric-value">20 Min</div>
+          <div class="metric-label">Background Scraping Interval</div>
         </div>
-      </div>
-      <div class="blog-card">
-        <div class="blog-body">
-          <div class="blog-tag">College Directory</div>
-          <h3>How to Check College Affiliation Status</h3>
-          <p>Ensure your college and degree course are approved by the National University inspection department using our built-in 2,279 college explorer.</p>
-          <div class="blog-footer">
-            <span>By Academic AI</span>
-            <span>3 min read</span>
-          </div>
+        <div class="metric-card">
+          <div class="metric-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+          <div class="metric-value">64 / 8</div>
+          <div class="metric-label">Districts & Divisions Covered</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon"><i class="fa-solid fa-code-branch"></i></div>
+          <div class="metric-value">100%</div>
+          <div class="metric-label">Free & Open-Source Community Tool</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Floating Telegram Action Button -->
-  <a href="https://t.me/Nu_notice_alart_bot" target="_blank" class="floating-cta">
-    <i class="fa-brands fa-telegram fa-xl"></i>
-    <span>Connect Bot</span>
-  </a>
+  <!-- Interactive Bot Simulator Section -->
+  <section id="simulator" class="simulator-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">Interactive Demo</span>
+        <h2 class="section-heading">How Notice Alerts Reach Your Phone</h2>
+        <p class="section-desc">Test the live simulator below to preview how the bot categorizes notices and provides instant one-tap official PDF downloads.</p>
+      </div>
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2026 National University Notice Bot Project. Open-Source Academic Tool.</p>
-    <p style="margin-top: 8px;">
-      Powered by Python, Beautiful Soup, APScheduler, and Open-Source AI.
-      <br>
-      <a href="https://github.com/rbhimel/nu_notice_bot" target="_blank">View GitHub Repository</a> | 
-      <a href="https://t.me/Nu_notice_alart_bot" target="_blank">Telegram Bot (@Nu_notice_alart_bot)</a>
-    </p>
+      <div class="simulator-layout">
+        <!-- Controls -->
+        <div class="sim-controls-card">
+          <h3 class="sim-title">Customize Your Profile</h3>
+          <p class="sim-subtitle">Select your academic program to preview sample circular notifications.</p>
+
+          <div class="sim-field">
+            <label class="sim-label" for="simProgram">Select Academic Degree</label>
+            <select id="simProgram" class="sim-select">
+              <option value="honours">Honours (অনার্স)</option>
+              <option value="degree">Degree Pass (ডিগ্রি পাস)</option>
+              <option value="masters">Masters (মাস্টার্স)</option>
+              <option value="professional">Professional (প্রফেশনাল BBA/CSE)</option>
+            </select>
+          </div>
+
+          <div class="sim-field">
+            <label class="sim-label" for="simYear">Select Academic Year</label>
+            <select id="simYear" class="sim-select">
+              <option value="1">1st Year (১ম বর্ষ)</option>
+              <option value="2">2nd Year (২য় বর্ষ)</option>
+              <option value="3" selected>3rd Year (৩য় বর্ষ)</option>
+              <option value="4">4th Year (৪র্থ বর্ষ)</option>
+            </select>
+          </div>
+
+          <div class="sim-field">
+            <label class="sim-label" for="simType">Circular Category</label>
+            <select id="simType" class="sim-select">
+              <option value="routine">Exam Routine & Time Table (পরীক্ষার সময়সূচি)</option>
+              <option value="form">Form Fill-up & Fee Notice (ফরম পূরণ)</option>
+              <option value="result">Result & Scrutiny (ফলাফল ও পুনর্নিরীক্ষণ)</option>
+            </select>
+          </div>
+
+          <a href="https://t.me/Nu_notice_alart_bot" target="_blank" class="btn-tg-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
+            <i class="fa-brands fa-telegram"></i>
+            <span>Set Up Live Alerts on Telegram</span>
+          </a>
+        </div>
+
+        <!-- Telegram Chat Mockup -->
+        <div class="tg-mockup">
+          <div class="tg-header">
+            <img src="bot_avatar.png" alt="Bot Avatar" class="tg-avatar">
+            <div>
+              <div class="tg-user-title">NU Notice Alert Bot</div>
+              <div class="tg-user-status">bot · verified academic alert</div>
+            </div>
+          </div>
+          <div class="tg-body">
+            <div class="tg-bubble">
+              <div class="tg-bubble-header">
+                <i class="fa-solid fa-bullhorn"></i>
+                <span id="mockCategory">EXAM ROUTINE UPDATE</span>
+              </div>
+              <strong id="mockTitle" style="color: #ffffff; display: block; margin: 4px 0 8px;">
+                ২০২৪ সালের অনার্স ৩য় বর্ষ পরীক্ষার সংশোধিত সময়সূচি সংক্রান্ত জরুরি বিজ্ঞপ্তি
+              </strong>
+              <div id="mockBody">
+                জাতীয় বিশ্ববিদ্যালয়ের ২০২৩-২৪ শিক্ষাবর্ষের অনার্স ৩য় বর্ষ পরীক্ষার সংশোধিত রুটিন প্রকাশ করা হয়েছে। সকল পরীক্ষার্থীদের নির্ধারিত কেন্দ্র ও প্রবেশপত্র সহ উপস্থিত থাকার নির্দেশ প্রদান করা হলো।
+              </div>
+              <div class="tg-bubble-meta">
+                <span><i class="fa-solid fa-hashtag"></i> Ref: <code id="mockRef">NU/CON/EX-4029</code></span>
+                <span><i class="fa-regular fa-clock"></i> Just Now</span>
+              </div>
+              <div class="tg-buttons-mock">
+                <a href="https://www.nu.ac.bd" target="_blank" class="tg-btn-link">
+                  <i class="fa-solid fa-file-pdf"></i> Download Official PDF
+                </a>
+                <a href="https://www.nu.ac.bd" target="_blank" class="tg-btn-link">
+                  <i class="fa-solid fa-globe"></i> View on nu.ac.bd
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive 2,279 College Directory Section -->
+  <section id="directory" class="directory-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">Affiliation Registry</span>
+        <h2 class="section-heading">2,279 Affiliated Colleges Directory</h2>
+        <p class="section-desc">Explore all official colleges affiliated with the National University across 8 administrative divisions and 64 districts in Bangladesh.</p>
+      </div>
+
+      <!-- Filters & Search Bar -->
+      <div class="directory-search-bar">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="collegeSearchInput" placeholder="Search college name (e.g. Dhaka College, Carmichael, B.M.)...">
+        </div>
+
+        <select id="divisionSelect" class="dir-select">
+          <option value="ALL">All Divisions (৮টি বিভাগ)</option>
+          <option value="DHAKA">Dhaka Division (ঢাকা)</option>
+          <option value="CHATTOGRAM">Chattogram Division (চট্টগ্রাম)</option>
+          <option value="RAJSHAHI">Rajshahi Division (রাজশাহী)</option>
+          <option value="KHULNA">Khulna Division (খুলনা)</option>
+          <option value="BARISAL">Barisal Division (বরিশাল)</option>
+          <option value="SYLHET">Sylhet Division (সিলেট)</option>
+          <option value="RANGPUR">Rangpur Division (রংপুর)</option>
+          <option value="MYMENSINGH">Mymensingh Division (ময়মনসিংহ)</option>
+        </select>
+
+        <select id="districtSelect" class="dir-select">
+          <option value="ALL">All Districts (৬৪ জেলা)</option>
+        </select>
+      </div>
+
+      <div class="directory-meta-bar">
+        <span>Showing <strong id="collegeCount">0</strong> affiliated colleges</span>
+        <span><i class="fa-solid fa-database"></i> Source: Official Affiliation Inspection Registry</span>
+      </div>
+
+      <!-- College Cards Container -->
+      <div class="college-cards-grid" id="collegeContainer">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Official NU CGPA Calculator Section -->
+  <section id="calculator" class="calculator-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">Academic Utility</span>
+        <h2 class="section-heading">Official NU CGPA / GPA Calculator</h2>
+        <p class="section-desc">Accurately calculate your semester Grade Point Average according to the official National University Bangladesh 4.00 grading scale.</p>
+      </div>
+
+      <div class="calc-wrapper">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <h3 style="font-size: 1.2rem; font-weight: 700;">Semester Coursework</h3>
+          <span class="badge-subtle"><i class="fa-solid fa-scale-balanced"></i> NU 4.00 Unified Grading Scale</span>
+        </div>
+
+        <div class="calc-table-responsive">
+          <table class="calc-table" id="coursesTable">
+            <thead>
+              <tr>
+                <th style="width: 45%;">Course / Subject Name</th>
+                <th style="width: 25%;">Credits (ক্রেডিট)</th>
+                <th style="width: 20%;">Letter Grade</th>
+                <th style="width: 10%; text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="courseRows">
+              <!-- Default initial courses -->
+              <tr>
+                <td><input type="text" class="calc-input" value="Core Course 1"></td>
+                <td>
+                  <select class="calc-select credit-input">
+                    <option value="4" selected>4 Credits</option>
+                    <option value="3">3 Credits</option>
+                    <option value="2">2 Credits</option>
+                  </select>
+                </td>
+                <td>
+                  <select class="calc-select grade-input">
+                    <option value="4.00">A+ (80% and above)</option>
+                    <option value="3.75" selected>A (75% to 79%)</option>
+                    <option value="3.50">A- (70% to 74%)</option>
+                    <option value="3.25">B+ (65% to 69%)</option>
+                    <option value="3.00">B (60% to 64%)</option>
+                    <option value="2.75">B- (55% to 59%)</option>
+                    <option value="2.50">C+ (50% to 54%)</option>
+                    <option value="2.25">C (45% to 49%)</option>
+                    <option value="2.00">D (40% to 44%)</option>
+                    <option value="0.00">F (Below 40% - Fail)</option>
+                  </select>
+                </td>
+                <td style="text-align: center;">
+                  <button class="btn-calc-action remove-row" title="Delete Course"><i class="fa-solid fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="text" class="calc-input" value="Core Course 2"></td>
+                <td>
+                  <select class="calc-select credit-input">
+                    <option value="4" selected>4 Credits</option>
+                    <option value="3">3 Credits</option>
+                    <option value="2">2 Credits</option>
+                  </select>
+                </td>
+                <td>
+                  <select class="calc-select grade-input">
+                    <option value="4.00">A+ (80% and above)</option>
+                    <option value="3.75">A (75% to 79%)</option>
+                    <option value="3.50" selected>A- (70% to 74%)</option>
+                    <option value="3.25">B+ (65% to 69%)</option>
+                    <option value="3.00">B (60% to 64%)</option>
+                    <option value="2.75">B- (55% to 59%)</option>
+                    <option value="2.50">C+ (50% to 54%)</option>
+                    <option value="2.25">C (45% to 49%)</option>
+                    <option value="2.00">D (40% to 44%)</option>
+                    <option value="0.00">F (Below 40% - Fail)</option>
+                  </select>
+                </td>
+                <td style="text-align: center;">
+                  <button class="btn-calc-action remove-row" title="Delete Course"><i class="fa-solid fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="text" class="calc-input" value="Core Course 3"></td>
+                <td>
+                  <select class="calc-select credit-input">
+                    <option value="4" selected>4 Credits</option>
+                    <option value="3">3 Credits</option>
+                    <option value="2">2 Credits</option>
+                  </select>
+                </td>
+                <td>
+                  <select class="calc-select grade-input">
+                    <option value="4.00">A+ (80% and above)</option>
+                    <option value="3.75">A (75% to 79%)</option>
+                    <option value="3.50">A- (70% to 74%)</option>
+                    <option value="3.25" selected>B+ (65% to 69%)</option>
+                    <option value="3.00">B (60% to 64%)</option>
+                    <option value="2.75">B- (55% to 59%)</option>
+                    <option value="2.50">C+ (50% to 54%)</option>
+                    <option value="2.25">C (45% to 49%)</option>
+                    <option value="2.00">D (40% to 44%)</option>
+                    <option value="0.00">F (Below 40% - Fail)</option>
+                  </select>
+                </td>
+                <td style="text-align: center;">
+                  <button class="btn-calc-action remove-row" title="Delete Course"><i class="fa-solid fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="text" class="calc-input" value="Core Course 4"></td>
+                <td>
+                  <select class="calc-select credit-input">
+                    <option value="4" selected>4 Credits</option>
+                    <option value="3">3 Credits</option>
+                    <option value="2">2 Credits</option>
+                  </select>
+                </td>
+                <td>
+                  <select class="calc-select grade-input">
+                    <option value="4.00" selected>A+ (80% and above)</option>
+                    <option value="3.75">A (75% to 79%)</option>
+                    <option value="3.50">A- (70% to 74%)</option>
+                    <option value="3.25">B+ (65% to 69%)</option>
+                    <option value="3.00">B (60% to 64%)</option>
+                    <option value="2.75">B- (55% to 59%)</option>
+                    <option value="2.50">C+ (50% to 54%)</option>
+                    <option value="2.25">C (45% to 49%)</option>
+                    <option value="2.00">D (40% to 44%)</option>
+                    <option value="0.00">F (Below 40% - Fail)</option>
+                  </select>
+                </td>
+                <td style="text-align: center;">
+                  <button class="btn-calc-action remove-row" title="Delete Course"><i class="fa-solid fa-trash"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="calc-toolbar">
+          <button id="addCourseBtn" class="btn-calc-add">
+            <i class="fa-solid fa-plus"></i> Add Another Course
+          </button>
+          <span style="font-size: 0.88rem; color: var(--text-muted);">
+            Total Earned Credits: <strong id="totalCreditsDisplay" style="color: var(--text);">16</strong>
+          </span>
+        </div>
+
+        <div class="calc-result-box">
+          <div style="font-size: 0.9rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.25rem;">
+            Calculated Grade Point Average (GPA)
+          </div>
+          <div class="calc-gpa-number" id="gpaResult">3.62</div>
+          <div class="calc-class-badge" id="gpaClassLabel">
+            ★ First Class Equivalent (প্রথম বিভাগ)
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Official Portals Vault Section -->
+  <section id="portals" class="portals-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">Verified Direct Links</span>
+        <h2 class="section-heading">Official University Portals Vault</h2>
+        <p class="section-desc">Quick, direct access to the official National University Gazipur servers for results, admissions, and exam forms.</p>
+      </div>
+
+      <div class="portal-cards-grid">
+        <a href="https://results.nu.ac.bd" target="_blank" rel="noopener noreferrer" class="portal-card">
+          <div class="portal-icon"><i class="fa-solid fa-square-poll-vertical"></i></div>
+          <div class="portal-name">Official Result Archive</div>
+          <div class="portal-url">results.nu.ac.bd</div>
+          <div class="portal-desc">Primary result portal for Honours, Degree Pass, and Masters individual and college-wise GPA sheets.</div>
+        </a>
+
+        <a href="http://www.nubd.info/results/" target="_blank" rel="noopener noreferrer" class="portal-card">
+          <div class="portal-icon"><i class="fa-solid fa-server"></i></div>
+          <div class="portal-name">Secondary Result Mirror</div>
+          <div class="portal-url">nubd.info/results/</div>
+          <div class="portal-desc">Fast alternate server for checking results and downloading gazettes when the main server experiences peak traffic.</div>
+        </a>
+
+        <a href="https://www.nu.ac.bd/notices.php" target="_blank" rel="noopener noreferrer" class="portal-card">
+          <div class="portal-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+          <div class="portal-name">Gazipur Central Notice Board</div>
+          <div class="portal-url">nu.ac.bd/notices.php</div>
+          <div class="portal-desc">Official administration notices, exam schedules, tenders, holidays, and circular archives from Gazipur HQ.</div>
+        </a>
+
+        <a href="https://www.nu.ac.bd/form-fill-up.php" target="_blank" rel="noopener noreferrer" class="portal-card">
+          <div class="portal-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+          <div class="portal-name">Sonali Seba Form Fill-up</div>
+          <div class="portal-url">nu.ac.bd/form-fill-up.php</div>
+          <div class="portal-desc">Student portal to generate online examination form fill-up applications and Sonali Bank payment slips.</div>
+        </a>
+      </div>
+
+      <!-- SMS Instruction Box -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; margin-top: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+        <div>
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--badge-text); text-transform: uppercase;">Teletalk SMS Gateway Syntax</span>
+          <h4 style="font-size: 1.15rem; font-weight: 700; margin: 4px 0 6px;">Check Results via Mobile SMS (When Servers are Down)</h4>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">
+            Type: <code style="background: var(--bg-surface-elevated); padding: 3px 8px; border-radius: 6px; font-weight: bold; color: var(--text);">NU &lt;space&gt; H3 &lt;space&gt; [Roll / Reg No]</code> and send to <strong style="color: var(--primary);">16222</strong>
+          </p>
+        </div>
+        <a href="https://t.me/Nu_notice_alart_bot" target="_blank" class="btn-tg-primary">
+          <i class="fa-brands fa-telegram"></i> Get Alert When Results Publish
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student Guides & Academic Knowledge Base -->
+  <section id="guides" class="guides-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">Academic Knowledge Base</span>
+        <h2 class="section-heading">National University Student Guides</h2>
+        <p class="section-desc">Practical, step-by-step advice compiled by NU seniors and alumni to help you navigate university regulations.</p>
+      </div>
+
+      <div class="guides-grid">
+        <div class="guide-card">
+          <div class="guide-pill">Promotion Regulations</div>
+          <h3 class="guide-title">Honours Promotion & Improvement Rules Explained</h3>
+          <p class="guide-excerpt">
+            Everything you need to know about passing marks: minimum GPA thresholds required to transition from 1st Year up to 4th Year, rules regarding D grade improvements, and how to avoid academic probation.
+          </p>
+          <div class="guide-meta">
+            <span><i class="fa-solid fa-user-pen"></i> By NU Alumni Network</span>
+            <span><i class="fa-regular fa-clock"></i> 5 min read</span>
+          </div>
+        </div>
+
+        <div class="guide-card">
+          <div class="guide-pill">Financial & Online Portal</div>
+          <h3 class="guide-title">Sonali Seba Online Payment & Fee Slip Verification</h3>
+          <p class="guide-excerpt">
+            A comprehensive guide on submitting online form fill-ups, generating the Sonali Seba pay slip, confirming transaction IDs, and submitting printed documents to your college department without late fines.
+          </p>
+          <div class="guide-meta">
+            <span><i class="fa-solid fa-user-pen"></i> By Student Editorial Team</span>
+            <span><i class="fa-regular fa-clock"></i> 6 min read</span>
+          </div>
+        </div>
+
+        <div class="guide-card">
+          <div class="guide-pill">Board Challenge & Scrutiny</div>
+          <h3 class="guide-title">How to Apply for Exam Khata Re-scrutiny (খাতা চ্যালেঞ্জ)</h3>
+          <p class="guide-excerpt">
+            Step-by-step procedure for applying for re-scrutiny through the official Teletalk SMS / web portal within the 30-day window following result publication, including fee breakdowns and expected timeline.
+          </p>
+          <div class="guide-meta">
+            <span><i class="fa-solid fa-user-pen"></i> By Academic Council Contributors</span>
+            <span><i class="fa-regular fa-clock"></i> 4 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student FAQs -->
+  <section id="faq" class="faq-section">
+    <div class="container faq-container">
+      <div class="section-header">
+        <span class="section-eyebrow">Common Questions</span>
+        <h2 class="section-heading">Frequently Asked Questions</h2>
+        <p class="section-desc">Everything you need to know about our automated notice monitoring service and Telegram bot.</p>
+      </div>
+
+      <div class="faq-item active">
+        <button class="faq-question">
+          <span>Why does nu.ac.bd constantly crash during result and routine announcements?</span>
+          <i class="fa-solid fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          National University Gazipur servers host records for over 2 million students nationwide. When exam routines or semester results publish, hundreds of thousands of concurrent requests overwhelm their infrastructure. Our scraper monitors the servers continuously in the background and delivers notice details and PDF archives directly to Telegram so you never have to wait for pages to load.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How can I filter notices so I only receive alerts for my department?</span>
+          <i class="fa-solid fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          In the Telegram bot (<code>@Nu_notice_alart_bot</code>), you can type <code>/setdegree</code> (e.g., Honours, Degree, Masters), <code>/setyear</code> (1st, 2nd, 3rd, 4th Year), and <code>/setsession</code> (e.g. 2023-24). The bot will automatically mute circulars irrelevant to your academic program.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Is this platform affiliated with the official National University authority?</span>
+          <i class="fa-solid fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          No. This is an independent, non-commercial, open-source community utility built by Bangladeshi students and developers to help fellow students access public university circulars reliably. All notice documents link directly to official university archives (nu.ac.bd).
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Are the bot and website completely free to use?</span>
+          <i class="fa-solid fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          Yes! The project is 100% free and open-source under the MIT license. There are no subscriptions, paywalls, or hidden charges. The entire codebase is transparently maintained on GitHub.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <div class="container">
+    <div class="cta-banner">
+      <h2>Never Miss an Exam Date Again</h2>
+      <p>Join thousands of National University students who receive instantaneous, verified notice circulars right on their phones.</p>
+      <a href="https://t.me/Nu_notice_alart_bot" target="_blank" rel="noopener noreferrer" class="btn-hero-primary" style="display: inline-flex;">
+        <i class="fa-brands fa-telegram fa-lg"></i>
+        <span>Connect Telegram Bot Now — It's Free</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-layout">
+        <div>
+          <div class="brand-group">
+            <img src="bot_avatar.png" alt="NU Notice Alert Logo">
+            <div class="brand-meta">
+              <span class="brand-name">NU Notice Alert</span>
+              <span class="brand-sub">Independent Student Academic Initiative</span>
+            </div>
+          </div>
+          <p class="footer-brand-desc">
+            An open-source academic notification service and student utility hub monitoring National University Bangladesh public circulars 24 hours a day.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-heading">Academic Utilities</div>
+          <ul class="footer-links">
+            <li><a href="#simulator">Notice Simulator</a></li>
+            <li><a href="#directory">2,279 College Directory</a></li>
+            <li><a href="#calculator">CGPA Calculator (4.00 Scale)</a></li>
+            <li><a href="#portals">Official University Servers</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-heading">Community & Code</div>
+          <ul class="footer-links">
+            <li><a href="https://github.com/rbhimel/nu_notice_bot" target="_blank">GitHub Repository</a></li>
+            <li><a href="https://t.me/Nu_notice_alart_bot" target="_blank">Telegram Bot (@Nu_notice_alart_bot)</a></li>
+            <li><a href="#guides">Student Guides & Regulations</a></li>
+            <li><a href="#faq">Frequently Asked Questions</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="disclaimer-box">
+          <strong>Disclaimer:</strong> This website and the associated Telegram bot are independent community projects and are not officially endorsed by, sponsored by, or affiliated with the National University Bangladesh (Gazipur). All public notices and circulars remain the copyright of their respective issuing authorities.
+        </div>
+        <div>
+          © 2026 NU Notice Bot Contributors · Open-Source MIT License
+        </div>
+      </div>
+    </div>
   </footer>
 
+  <!-- Floating Telegram Quick Access -->
+  <a href="https://t.me/Nu_notice_alart_bot" target="_blank" class="floating-tg-button" aria-label="Open Telegram Bot">
+    <i class="fa-brands fa-telegram fa-xl"></i>
+    <span>Alerts Bot</span>
+  </a>
+
+  <!-- Embedded Hierarchy Data & Interactive Script -->
+  <script src="nu_colleges_data.js"></script>
+  <script>
+    // -------------------------------------------------------------
+    // Theme Management (Persisted in localStorage)
+    // -------------------------------------------------------------
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const currentTheme = localStorage.getItem('nu_theme') || 'dark';
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'light') {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      } else {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+      localStorage.setItem('nu_theme', theme);
+    }
+
+    applyTheme(currentTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const active = document.documentElement.getAttribute('data-theme');
+      applyTheme(active === 'light' ? 'dark' : 'light');
+    });
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navMenu = document.getElementById('navMenu');
+    mobileMenuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+    });
+
+    // -------------------------------------------------------------
+    // Simulator Logic
+    // -------------------------------------------------------------
+    const simProgram = document.getElementById('simProgram');
+    const simYear = document.getElementById('simYear');
+    const simType = document.getElementById('simType');
+    const mockCategory = document.getElementById('mockCategory');
+    const mockTitle = document.getElementById('mockTitle');
+    const mockBody = document.getElementById('mockBody');
+    const mockRef = document.getElementById('mockRef');
+
+    function updateSimulator() {
+      const prog = simProgram.options[simProgram.selectedIndex].text.split(' ')[0];
+      const yr = simYear.options[simYear.selectedIndex].text.split(' ')[0];
+      const category = simType.value;
+
+      if (category === 'routine') {
+        mockCategory.innerText = "EXAM ROUTINE PUBLISHED";
+        mockTitle.innerText = `২০২৪ সালের ${prog} ${yr} বর্ষ পরীক্ষার সময়সূচি সংক্রান্ত জরুরি বিজ্ঞপ্তি`;
+        mockBody.innerText = `জাতীয় বিশ্ববিদ্যালয়ের ২০২৪ সালের ${prog} ${yr} বর্ষের নিয়মিত ও অনিয়মিত শিক্ষার্থীদের পরীক্ষার সংশোধিত রুটিন প্রকাশ করা হয়েছে। নির্ধারিত তারিখ অনুযায়ী পরীক্ষা অনুষ্ঠিত হবে।`;
+        mockRef.innerText = `NU/EXAM/${prog.toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      } else if (category === 'form') {
+        mockCategory.innerText = "FORM FILL-UP DEADLINE";
+        mockTitle.innerText = `২০২৪ সালের ${prog} ${yr} বর্ষ পরীক্ষার অনলাইন ফরম পূরণ ও ফি জমাদান সংক্রান্ত বিজ্ঞপ্তি`;
+        mockBody.innerText = `সোনালী সেবার মাধ্যমে নির্ধারিত ফি প্রদান করে শিক্ষার্থীদের অনলাইন ফরম পূরণ সম্পন্ন করার অনুরোধ করা হলো। নির্ধারিত সময়ের পর অতিরিক্ত ফি সহ ফরম জমা নেওয়া হবে না।`;
+        mockRef.innerText = `NU/FF/${prog.toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      } else {
+        mockCategory.innerText = "RESULT & RE-SCRUTINY";
+        mockTitle.innerText = `২০২৩ সালের ${prog} ${yr} বর্ষ পরীক্ষার ফলাফল ও খাতা পুনর্নিরীক্ষণ বিজ্ঞপ্তি`;
+        mockBody.innerText = `উক্ত পরীক্ষার ফলাফল আনুষ্ঠানিকভাবে প্রকাশ করা হয়েছে। ফলাফল সংক্রান্ত আপত্তি বা পুনর্নিরীক্ষণের জন্য আগামী ৩০ দিনের মধ্যে অনলাইনে আবেদন করা যাবে।`;
+        mockRef.innerText = `NU/RES/${prog.toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      }
+    }
+
+    [simProgram, simYear, simType].forEach(el => el.addEventListener('change', updateSimulator));
+
+    // -------------------------------------------------------------
+    // 2,279 College Directory Logic (Fetches nu_hierarchy.json with fallback)
+    // -------------------------------------------------------------
+    let hierarchyData = null;
+    let flatCollegeList = [];
+
+    const divisionSelect = document.getElementById('divisionSelect');
+    const districtSelect = document.getElementById('districtSelect');
+    const collegeSearchInput = document.getElementById('collegeSearchInput');
+    const collegeContainer = document.getElementById('collegeContainer');
+    const collegeCount = document.getElementById('collegeCount');
+
+    // High-priority popular college sample for instant render while JSON is loading
+    const initialSampleColleges = [
+      { name: "DHAKA COLLEGE", division: "DHAKA", district: "DHAKA" },
+      { name: "EDEN MOHILA COLLEGE", division: "DHAKA", district: "DHAKA" },
+      { name: "GOVT. TITUMIR COLLEGE", division: "DHAKA", district: "DHAKA" },
+      { name: "GOVT. BANGLA COLLEGE", division: "DHAKA", district: "DHAKA" },
+      { name: "KABI NAZRUL GOVT. COLLEGE", division: "DHAKA", district: "DHAKA" },
+      { name: "BEGUM BADRUNNESA GOVT. GIRLS' COLLEGE", division: "DHAKA", district: "DHAKA" },
+      { name: "CARMICHAEL COLLEGE, RANGPUR", division: "RANGPUR", district: "RANGPUR" },
+      { name: "GOVT. B. M. COLLEGE, BARISAL", division: "BARISAL", district: "BARISAL" },
+      { name: "CHITTAGONG COLLEGE", division: "CHATTOGRAM", district: "CHATTOGRAM" },
+      { name: "GOVT. COMMERCE COLLEGE, CHITTAGONG", division: "CHATTOGRAM", district: "CHATTOGRAM" },
+      { name: "RAJSHAHI COLLEGE", division: "RAJSHAHI", district: "RAJSHAHI" },
+      { name: "GOVT. B. L. COLLEGE, KHULNA", division: "KHULNA", district: "KHULNA" },
+      { name: "MURARI CHAND (M. C.) COLLEGE, SYLHET", division: "SYLHET", district: "SYLHET" },
+      { name: "ANANDA MOHAN COLLEGE, MYMENSINGH", division: "MYMENSINGH", district: "MYMENSINGH" },
+      { name: "COMILLA VICTORIA GOVT. COLLEGE", division: "CHATTOGRAM", district: "COMILLA" }
+    ];
+
+    function renderColleges(list) {
+      collegeCount.innerText = list.length.toLocaleString();
+      if (list.length === 0) {
+        collegeContainer.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">
+            <i class="fa-solid fa-folder-open" style="font-size: 2.5rem; margin-bottom: 0.75rem; color: var(--text-subtle);"></i>
+            <p>No colleges found matching your search criteria. Try a different search term or district.</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Display up to 100 for high DOM performance
+      const displayBatch = list.slice(0, 100);
+      collegeContainer.innerHTML = displayBatch.map(c => `
+        <div class="college-card">
+          <div>
+            <div class="college-name">${c.name}</div>
+          </div>
+          <div class="college-badge-group">
+            <span class="badge-subtle badge-govt"><i class="fa-solid fa-circle-check"></i> Affiliated</span>
+            <span class="badge-subtle"><i class="fa-solid fa-map-pin"></i> ${c.district}</span>
+            <span class="badge-subtle">${c.division}</span>
+          </div>
+        </div>
+      `).join('');
+
+      if (list.length > 100) {
+        collegeContainer.innerHTML += `
+          <div style="grid-column: 1/-1; text-align: center; padding: 1.25rem; font-size: 0.88rem; color: var(--text-muted); border: 1px dashed var(--border); border-radius: 12px;">
+            Showing first 100 results of ${list.length.toLocaleString()} colleges. Narrow your search with the search box or district dropdown above.
+          </div>
+        `;
+      }
+    }
+
+    function filterColleges() {
+      const selectedDiv = divisionSelect.value;
+      const selectedDist = districtSelect.value;
+      const search = collegeSearchInput.value.trim().toUpperCase();
+
+      let filtered = flatCollegeList.filter(c => {
+        if (selectedDiv !== 'ALL' && c.division !== selectedDiv) return false;
+        if (selectedDist !== 'ALL' && c.district !== selectedDist) return false;
+        if (search && !c.name.includes(search)) return false;
+        return true;
+      });
+
+      renderColleges(filtered);
+    }
+
+    function updateDistrictOptions() {
+      const selectedDiv = divisionSelect.value;
+      districtSelect.innerHTML = '<option value="ALL">All Districts (সব জেলা)</option>';
+
+      if (!hierarchyData) return;
+
+      if (selectedDiv === 'ALL') {
+        const allDistricts = new Set();
+        for (const div in hierarchyData) {
+          for (const dist in hierarchyData[div]) {
+            allDistricts.add(dist);
+          }
+        }
+        Array.from(allDistricts).sort().forEach(dist => {
+          districtSelect.innerHTML += `<option value="${dist}">${dist}</option>`;
+        });
+      } else if (hierarchyData[selectedDiv]) {
+        Object.keys(hierarchyData[selectedDiv]).sort().forEach(dist => {
+          districtSelect.innerHTML += `<option value="${dist}">${dist}</option>`;
+        });
+      }
+    }
+
+    function processHierarchy(data) {
+      hierarchyData = data;
+      flatCollegeList = [];
+      for (const div in data) {
+        for (const dist in data[div]) {
+          data[div][dist].forEach(col => {
+            flatCollegeList.push({ name: col, division: div, district: dist });
+          });
+        }
+      }
+      updateDistrictOptions();
+      filterColleges();
+    }
+
+    if (window.NU_COLLEGES_HIERARCHY) {
+      processHierarchy(window.NU_COLLEGES_HIERARCHY);
+    } else {
+      fetch('nu_hierarchy.json')
+        .then(res => res.json())
+        .then(data => processHierarchy(data))
+        .catch(err => {
+          console.warn('nu_hierarchy.json load fallback:', err);
+          flatCollegeList = initialSampleColleges;
+          renderColleges(flatCollegeList);
+        });
+    }
+
+    divisionSelect.addEventListener('change', () => {
+      updateDistrictOptions();
+      filterColleges();
+    });
+    districtSelect.addEventListener('change', filterColleges);
+    collegeSearchInput.addEventListener('input', filterColleges);
+
+    // -------------------------------------------------------------
+    // CGPA Calculator Logic
+    // -------------------------------------------------------------
+    const courseRows = document.getElementById('courseRows');
+    const addCourseBtn = document.getElementById('addCourseBtn');
+    const gpaResult = document.getElementById('gpaResult');
+    const gpaClassLabel = document.getElementById('gpaClassLabel');
+    const totalCreditsDisplay = document.getElementById('totalCreditsDisplay');
+
+    function calculateGPA() {
+      let totalQualityPoints = 0;
+      let totalCredits = 0;
+
+      const rows = courseRows.querySelectorAll('tr');
+      rows.forEach(row => {
+        const credit = parseFloat(row.querySelector('.credit-input').value) || 0;
+        const gradePoint = parseFloat(row.querySelector('.grade-input').value) || 0;
+
+        totalCredits += credit;
+        totalQualityPoints += (credit * gradePoint);
+      });
+
+      totalCreditsDisplay.innerText = totalCredits;
+
+      if (totalCredits === 0) {
+        gpaResult.innerText = "0.00";
+        gpaClassLabel.innerText = "—";
+        return;
+      }
+
+      const gpa = (totalQualityPoints / totalCredits).toFixed(2);
+      gpaResult.innerText = gpa;
+
+      const numericGPA = parseFloat(gpa);
+      if (numericGPA >= 3.00) {
+        gpaClassLabel.innerText = "★ First Class Equivalent (প্রথম বিভাগ) — Excellent";
+        gpaClassLabel.style.color = "#10b981";
+      } else if (numericGPA >= 2.25) {
+        gpaClassLabel.innerText = "✓ Second Class Equivalent (দ্বিতীয় বিভাগ) — Standard";
+        gpaClassLabel.style.color = "#3b82f6";
+      } else if (numericGPA >= 2.00) {
+        gpaClassLabel.innerText = "⚠ Third Class Equivalent (তৃতীয় বিভাগ) — Pass";
+        gpaClassLabel.style.color = "#f59e0b";
+      } else {
+        gpaClassLabel.innerText = "✕ Fail / Improvement Required (অনুত্তীর্ণ)";
+        gpaClassLabel.style.color = "#ef4444";
+      }
+    }
+
+    addCourseBtn.addEventListener('click', () => {
+      const newIndex = courseRows.children.length + 1;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="text" class="calc-input" value="Course ${newIndex}"></td>
+        <td>
+          <select class="calc-select credit-input">
+            <option value="4" selected>4 Credits</option>
+            <option value="3">3 Credits</option>
+            <option value="2">2 Credits</option>
+          </select>
+        </td>
+        <td>
+          <select class="calc-select grade-input">
+            <option value="4.00">A+ (80% and above)</option>
+            <option value="3.75" selected>A (75% to 79%)</option>
+            <option value="3.50">A- (70% to 74%)</option>
+            <option value="3.25">B+ (65% to 69%)</option>
+            <option value="3.00">B (60% to 64%)</option>
+            <option value="2.75">B- (55% to 59%)</option>
+            <option value="2.50">C+ (50% to 54%)</option>
+            <option value="2.25">C (45% to 49%)</option>
+            <option value="2.00">D (40% to 44%)</option>
+            <option value="0.00">F (Below 40% - Fail)</option>
+          </select>
+        </td>
+        <td style="text-align: center;">
+          <button class="btn-calc-action remove-row" title="Delete Course"><i class="fa-solid fa-trash"></i></button>
+        </td>
+      `;
+      courseRows.appendChild(tr);
+      calculateGPA();
+    });
+
+    courseRows.addEventListener('click', (e) => {
+      if (e.target.closest('.remove-row')) {
+        const row = e.target.closest('tr');
+        if (courseRows.children.length > 1) {
+          row.remove();
+          calculateGPA();
+        } else {
+          alert('You must have at least one course in the calculator.');
+        }
+      }
+    });
+
+    courseRows.addEventListener('change', calculateGPA);
+
+    // Initial calculation
+    calculateGPA();
+
+    // -------------------------------------------------------------
+    // FAQ Accordion Interactions
+    // -------------------------------------------------------------
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const isActive = item.classList.contains('active');
+
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
